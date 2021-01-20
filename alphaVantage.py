@@ -12,15 +12,16 @@ import time
 key_path = "alpha_vantage_key.txt"
 
 # extracting data for a single ticker
+key=open(key_path,'r').read()
+
 ts = TimeSeries(key=open(key_path,'r').read(), output_format='pandas')
-data = ts.get_daily(symbol='EURUSD', outputsize='full')[0]
+data = ts.get_daily(symbol='AAPL', outputsize='compact')[0]
 data.columns = ["open","high","low","close","volume"]
 data = data.iloc[::-1]
 
 
 # extracting stock data (historical close price) for multiple stocks
-all_tickers = ["AAPL","MSFT","CSCO","AMZN","GOOG",
-               "FB","BA","MMM","XOM","NKE","INTC"]
+all_tickers = ["TSLA","ZM"]
 close_prices = pd.DataFrame()
 api_call_count = 1
 ts = TimeSeries(key=open(key_path,'r').read(), output_format='pandas')
@@ -37,8 +38,7 @@ for ticker in all_tickers:
 
 
 # extracting ohlcv data for multiple stocks
-all_tickers = ["AAPL","MSFT","CSCO","AMZN","GOOG",
-               "FB","BA","MMM","XOM","NKE","INTC"]
+all_tickers = ["TSLA","ZM"]
 ohlv_dict = {}
 api_call_count = 1
 ts = TimeSeries(key=open(key_path,'r').read(), output_format='pandas')
