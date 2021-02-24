@@ -5,3 +5,4 @@ MarketSearch/Data/*
 MarketSearch/test.py
 MarketSearch/ticker_h.txt
 MarketSearch/ticker_s.txt
+Pre-after-market/*.png
