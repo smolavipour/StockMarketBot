@@ -37,6 +37,7 @@ Tickers = pd.read_csv(input_data_path, header=None, names=['tk'])
 #Tickers = ['AAPL', 'MSFT']
 premarket = pd.DataFrame(columns=['Ticker','Change (pre)'])
 aftermarket = pd.DataFrame(columns=['Ticker','Change (after)'])
+daymarket = pd.DataFrame(columns=['Ticker','Change'])
 
 
 
@@ -54,15 +55,16 @@ for ticker in Tickers.tk:
     elif soup.select("span.change--percent--q>bg-quote")[0].get('session') == 'after':
         #Aftermarket
         after_market_change = soup.select("span.change--percent--q>bg-quote")[0].get_text()
-        #print(pre_market_change)
         aftermarket = aftermarket.append({'Ticker':ticker, 'Change (after)':after_market_change}, ignore_index=True)        
-
+    elif soup.select("span.change--percent--q>bg-quote")[0].get('session') ==  None:
+        #day market
+        day_market_change = soup.select("span.change--percent--q>bg-quote")[0].get_text()
+        daymarket = daymarket.append({'Ticker':ticker, 'Change':day_market_change}, ignore_index=True)
 ax = plt.subplot(111, frame_on=False) # no visible frame
 ax.xaxis.set_visible(False)  # hide the x axis
 ax.yaxis.set_visible(False)  # hide the y axis
 
 if soup.select("span.change--percent--q>bg-quote")[0].get('session') == 'pre':
-
     ax=render_mpl_table(premarket, header_columns=0, col_width=2.0)
     plt.savefig('PreMarket.png')    
     display(premarket)
@@ -70,3 +72,7 @@ elif soup.select("span.change--percent--q>bg-quote")[0].get('session') == 'after
     ax=render_mpl_table(aftermarket, header_columns=0, col_width=2.0)
     plt.savefig('AfterMarket.png')    
     display(aftermarket)
+elif soup.select("span.change--percent--q>bg-quote")[0].get('session') == None:
+    ax=render_mpl_table(daymarket, header_columns=0, col_width=2.0)
+    plt.savefig('DayMarket.png')    
+    display(daymarket)    
