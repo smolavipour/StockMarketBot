@@ -7,3 +7,4 @@ MarketSearch/ticker_h.txt
 MarketSearch/ticker_s.txt
 Pre-after-market/*.png
 __pycache__/
+.venv/
